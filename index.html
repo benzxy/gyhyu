@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apps</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-top: 20px;
+            z-index: 10;
+        }
+
+        /* Search bar styling */
+        .search-bar {
+            margin: 20px 0;
+            width: 80%;
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            background-color: #333;
+            color: white;
+        }
+
+        .search-bar input::placeholder {
+            color: #888;
+        }
+
+        /* Icon grid container */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            width: 80%;
+            max-width: 800px;
+            z-index: 10;
+        }
+
+        /* Icon block styling */
+        .icon-block {
+            background-color: #222;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .icon-block img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .icon-block:hover {
+            transform: scale(1.05);
+            background-color: #333;
+        }
+
+        /* Background animation */
+        .dot {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: move 5s linear forwards;
+        }
+
+        @keyframes move {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Apps</h1>
+    <div class="search-bar">
+        <input type="text" placeholder="Search for an app...">
+    </div>
+    <div class="icon-grid">
+        <a href="https://android.com" class="icon-block" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Android_robot.svg" alt="Android">
+        </a>
+        <a href="https://apkpure.com" class="icon-block" target="_blank">
+            <img src="https://seeklogo.com/images/A/apkpure-logo-B24B06AC32-seeklogo.com.png" alt="APKPure">
+        </a>
+        <a href="https://character.ai" class="icon-block" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Character.ai_logo.svg/2560px-Character.ai_logo.svg.png" alt="Character.ai">
+        </a>
+        <a href="https://studymonkey.com" class="icon-block" target="_blank">
+            <img src="https://seeklogo.com/images/S/studymonkey-logo-1F9F00730A-seeklogo.com.png" alt="StudyMonkey">
+        </a>
+        <a href="https://discord.com" class="icon-block" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/98/Discord_logo.svg/245px-Discord_logo.svg.png" alt="Discord">
+        </a>
+        <a href="https://nvidia.com" class="icon-block" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Nvidia_logo.svg/2560px-Nvidia_logo.svg.png" alt="Nvidia">
+        </a>
+        <a href="https://github.com" class="icon-block" target="_blank">
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub">
+        </a>
+        <a href="https://google.com" class="icon-block" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google">
+        </a>
+        <a href="https://instagram.com" class="icon-block" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+        </a>
+        <a href="https://netflix.com" class="icon-block" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Netflix_logo.svg" alt="Netflix">
+        </a>
+        <a href="https://pinterest.com" class="icon-block" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png" alt="Pinterest">
+        </a>
+    </div>
+
+    <script>
+        // JavaScript to create the animated dots in the background
+        function createDots() {
+            for (let i = 0; i < 100; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                dot.style.left = Math.random() * 100 + 'vw';
+                dot.style.top = Math.random() * 100 + 'vh';
+                document.body.appendChild(dot);
+            }
+
+            // Remove dots after 5 seconds
+            setTimeout(() => {
+                document.querySelectorAll('.dot').forEach(dot => dot.remove());
+            }, 5000);
+        }
+
+        // Call the function to create dots
+        createDots();
+    </script>
+</body>
+</html>
