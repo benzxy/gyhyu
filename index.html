@@ -3,146 +3,294 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Links for unblocked websites</title>
+    <title>Your Business Name - Website Designer</title>
     <style>
+      :root {
+        --primary: #4f46e5; /* Indigo */
+        --secondary: #22d3ee; /* Teal */
+        --dark: #111827;
+        --light: #f9fafb;
+        --accent: #10b981;
+      }
+
+      * {
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
       body {
-        background: #00c3ff;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
+        background: linear-gradient(to right, var(--light), #e0f2fe);
+        color: var(--dark);
+        padding-top: 80px;
+      }
+
+      header {
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        transition: top 0.3s;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: bold;
+        animation: slideIn 0.5s forwards;
+        opacity: 0;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      nav ul {
+        list-style: none;
         padding: 0;
+        margin: 10px 0;
       }
-      .navbar {
-        display: flex;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.2);
-        padding: 15px;
-        border-radius: 10px;
+
+      nav ul li {
+        display: inline-block;
+        margin: 0 15px;
       }
-      .navbar a {
+
+      nav ul li a {
         color: white;
         text-decoration: none;
-        margin: 0 20px;
-        font-size: 18px;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+        color: #d1d5db;
+      }
+
+      section {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(4px);
+        margin: 20px auto;
+        padding: 30px;
+        max-width: 900px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.6s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h2 {
+        color: var(--primary);
+      }
+
+      ul {
+        padding-left: 1em;
+      }
+
+      .portfolio {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+      }
+
+      .portfolio-item {
+        background-color: #e0f2fe;
+        border-radius: 8px;
+        text-align: center;
+        padding: 15px;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .portfolio-item:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .portfolio-item img {
+        max-width: 100%;
+        border-radius: 5px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-top: 10px;
         font-weight: bold;
       }
-      .navbar a:hover {
-        text-decoration: underline;
+
+      input,
+      textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
       }
-      .container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-        padding: 20px;
-        max-width: 1200px;
-        margin: auto;
-      }
-      .block {
-        background: rgba(31, 36, 37, 0.2);
-        padding: 20px;
-        border-radius: 10px;
-        text-align: left;
+
+      button {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 15px;
         cursor: pointer;
-        transition: background 0.3s;
+        transition: background-color 0.3s;
       }
-      .block:hover {
-        background: rgba(255, 255, 255, 0.4);
+
+      button:hover {
+        background-color: var(--accent);
       }
-      h1 {
-        color: rgb(255, 255, 255);
-        margin-top: 20px;
+
+      footer {
+        background: var(--dark);
+        color: white;
+        text-align: center;
+        padding: 20px 10px;
+        margin-top: 40px;
+      }
+
+      @media (max-width: 600px) {
+        nav ul li {
+          display: block;
+          margin: 8px 0;
+        }
+
+        header h1 {
+          font-size: 1.5rem;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Links for unblocked websites</h1>
+    <header id="header">
+      <h1>Your Business Name</h1>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
 
-    <div class="navbar">
-      <a href="https://benzxy.github.io/Benzonium/">Home</a>
-      <a href="#">Bookmarklets</a>
-      <a href="#">About</a>
-      <a href="#">Suggestions</a>
-    </div>
+    <section id="home">
+      <h2>Welcome</h2>
+      <p>Creating stunning websites tailored to your needs.</p>
+    </section>
 
-    <div class="container" id="content">
-      <!-- JavaScript will generate 50 clickable blocks here -->
-    </div>
+    <section id="services">
+      <h2>Services</h2>
+      <ul>
+        <li>
+          <h3>Website Design</h3>
+          <p>
+            Custom, mobile-friendly websites to represent your brand online.
+          </p>
+        </li>
+        <li>
+          <h3>E-Commerce Solutions</h3>
+          <p>Launch your online store with ease and elegance.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="portfolio">
+      <h2>Portfolio</h2>
+      <div class="portfolio">
+        <div class="portfolio-item">
+          <img src="portfolio1.jpg" alt="Project 1" />
+          <p>Modern Website Design</p>
+          <a href="#">View Project</a>
+        </div>
+        <div class="portfolio-item">
+          <img src="portfolio2.jpg" alt="Project 2" />
+          <p>Online Store Setup</p>
+          <a href="#">View Project</a>
+        </div>
+        <div class="portfolio-item">
+          <img src="portfolio3.jpg" alt="Project 3" />
+          <p>Landing Page</p>
+          <a href="#">View Project</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        I’m a passionate web designer helping brands shine online. Let's bring
+        your vision to life.
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <form action="submit_form.php" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <p>
+        Email: <a href="mailto:yourname@example.com">yourname@example.com</a>
+      </p>
+      <p>Phone: (123) 456-7890</p>
+      <p>
+        Follow us: <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+        <a href="#">Instagram</a>
+      </p>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Your Business Name. All rights reserved.</p>
+    </footer>
 
     <script>
-      // List of 50 different URLs
-      const urls = [
-        "https://v4-hawktuah23.vercel.app/",
-        "https://v4-42tn.vercel.app/",
-        "https://v4-bvmf.vercel.app/",
-        "https://v4-uabr.vercel.app/",
-        "https://v4-jus5.vercel.app/",
-        "https://v4-o1vp.vercel.app/",
-        "https://artclass-kappa-rose.vercel.app/",
-        "https://artclass-lr43.vercel.app/",
-        "https://artclass-as34.vercel.app/",
-        "https://artclass-88zh.vercel.app/",
-        "https://artclass-6iqd.vercel.app/",
-        "https://artclass-qnb6.vercel.app/",
-        "https://example13.com",
-        "https://example14.com",
-        "https://example15.com",
-        "https://example16.com",
-        "https://example17.com",
-        "https://example18.com",
-        "https://example19.com",
-        "https://example20.com",
-        "https://example21.com",
-        "https://example22.com",
-        "https://example23.com",
-        "https://example24.com",
-        "https://example25.com",
-        "https://example26.com",
-        "https://example27.com",
-        "https://example28.com",
-        "https://example29.com",
-        "https://example30.com",
-        "https://example31.com",
-        "https://example32.com",
-        "https://example33.com",
-        "https://example34.com",
-        "https://example35.com",
-        "https://example36.com",
-        "https://example37.com",
-        "https://example38.com",
-        "https://example39.com",
-        "https://example40.com",
-        "https://example41.com",
-        "https://example42.com",
-        "https://example43.com",
-        "https://example44.com",
-        "https://example45.com",
-        "https://example46.com",
-        "https://example47.com",
-        "https://example48.com",
-        "https://example49.com",
-        "https://example50.com",
-      ];
+      let lastScrollTop = 0;
+      const header = document.getElementById("header");
 
-      function createContentBlocks() {
-        let container = document.getElementById("content");
-        for (let i = 0; i < 50; i++) {
-          let block = document.createElement("div");
-          block.classList.add("block");
-          block.innerHTML = `<h3>Block ${i + 1}</h3><p>Click to visit: ${
-            urls[i]
-          }</p>`;
-
-          // Redirect to the specific URL when clicked
-          block.onclick = function () {
-            window.location.href = urls[i];
-          };
-
-          container.appendChild(block);
+      window.addEventListener("scroll", () => {
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > lastScrollTop) {
+          header.style.top = "-100px";
+        } else {
+          header.style.top = "0";
         }
-      }
-
-      createContentBlocks();
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+      });
     </script>
   </body>
 </html>
