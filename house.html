@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Player vs House</title>
+  <style>
+    body {
+      background-color: darkgreen;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .menu {
+      margin-bottom: 20px;
+    }
+
+    .menu a {
+      color: gold;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 18px;
+    }
+
+    .menu a:hover {
+      color: orange;
+    }
+
+    .hand {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0;
+    }
+
+    .card {
+      font-size: 48px;
+      width: 80px;
+      height: 110px;
+      border: 3px solid gold;
+      border-radius: 8px;
+      background-color: white;
+      color: black;
+      margin: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s ease;
+      transform-style: preserve-3d; /* Preserve 3D effect */
+      position: relative;
+    }
+
+    .card.flip {
+      transform: rotateY(180deg); /* Flip effect */
+    }
+
+    .card-inner {
+      position: absolute;
+      backface-visibility: hidden; /* Hide back face */
+    }
+
+    .card-front {
+      background-color: white;
+      color: black;
+    }
+
+    .card-back {
+      background-color: darkred;
+      color: white;
+      transform: rotateY(180deg); /* Back face is rotated */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+
+    .red {
+      color: red;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      background-color: gold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    input {
+      padding: 6px;
+      font-size: 16px;
+      width: 100px;
+    }
+
+    #chipCount {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin: 5px 0;
+    }
+
+    /* Shuffling animation styles */
+    .shuffle {
+      animation: shuffle 0.6s ease forwards;
+    }
+
+    @keyframes shuffle {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(-10px); }
+      50% { transform: translateY(10px); }
+      75% { transform: translateY(-5px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="menu">
+    <a href="index.html">Home</a>
+    <a href="slot.html">Slot Machine</a>
+    <a href="blackjack.html">Blackjack</a>
+    <a href="#">Player vs House</a>
+  </div>
+
+  <h1>♣️ You vs The House ♠️</h1>
+  <div id="chipCount">💰 Chips: 100</div>
+
+  <div>
+    <input type="number" id="betAmount" placeholder="Your bet" min="1" />
+    <button onclick="placeBet()">Place Bet</button>
+  </div>
+
+  <h2>Your Hand</h2>
+  <div class="hand" id="playerHand">
+    <div class="card" id="playerCard1"><div class="card-inner"><div class="card-front">🂠</div><div class="card-back"></div></div></div>
+    <div class="card" id="playerCard2"><div class="card-inner"><div class="card-front">🂠</div><div class="card-back"></div></div></div>
+    <div class="card" id="playerCard3"><div class="card-inner"><div class="card-front">🂠</div><div class="card-back"></div></div></div>
+  </div>
+
+  <h2>House Hand</h2>
+  <div class="hand" id="houseHand">
+    <div class="card" id="houseCard1"><div class="card-inner"><div class="card-front">🂠</div><div class="card-back"></div></div></div>
+    <div class="card" id="houseCard2"><div class="card-inner"><div class="card-front">🂠</div><div class="card-back"></div></div></div>
+    <div class="card" id="houseCard3"><div class="card-inner"><div class="card-front">🂠</div><div class="card-back"></div></div></div>
+  </div>
+
+  <button id="dealBtn" onclick="deal()" disabled>Deal</button>
+  <p id="result">Place a bet to begin.</p>
+
+  <script>
+    const suits = ["♠", "♥", "♦", "♣"];
+    const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+
+    let chips = 100;
+    let currentBet = 0;
+
+    function getRandomCard() {
+      const suit = suits[Math.floor(Math.random() * suits.length)];
+      const value = values[Math.floor(Math.random() * values.length)];
+      return { suit, value };
+    }
+
+    function cardToHTML(card) {
+      const red = card.suit === "♥" || card.suit === "♦";
+      return `<div class="card ${red ? "red" : ""}">${card.value}${card.suit}</div>`;
+    }
+
+    function placeBet() {
+      const betInput = document.getElementById("betAmount");
+      const bet = parseInt(betInput.value);
+      if (bet > 0 && bet <= chips) {
+        currentBet = bet;
+        betInput.value = "";
+        document.getElementById("dealBtn").disabled = false;
+        document.getElementById("result").innerText = `You bet ${currentBet} chips. Click Deal!`;
+      } else {
+        alert("Invalid bet amount.");
+      }
+    }
+
+    function flipCard(cardId) {
+      const card = document.getElementById(cardId);
+      card.classList.add("flip");
+    }
+
+    function shuffleCards() {
+      const allCards = [
+        getRandomCard(), getRandomCard(), getRandomCard(),
+        getRandomCard(), getRandomCard(), getRandomCard()
+      ];
+
+      // Shuffle logic
+      return allCards.sort(() => Math.random() - 0.5);
+    }
+
+    function deal() {
+      chips -= currentBet;
+      document.getElementById("chipCount").innerText = `💰 Chips: ${chips}`;
+
+      // Start shuffling animation
+      const playerCards = [shuffleCards(), shuffleCards()]; // Two hands
+      const houseCards = [shuffleCards(), shuffleCards()];
+
+      // Show player hand with shuffle effect
+      document.getElementById("playerCard1").querySelector('.card-back').innerHTML = cardToHTML(playerCards[0][0]);
+      document.getElementById("playerCard2").querySelector('.card-back').innerHTML = cardToHTML(playerCards[0][1]);
+      document.getElementById("playerCard3").querySelector('.card-back').innerHTML = cardToHTML(playerCards[0][2]);
+
+      // Show house hand with shuffle effect
+      document.getElementById("houseCard1").querySelector('.card-back').innerHTML = cardToHTML(houseCards[0][0]);
+      document.getElementById("houseCard2").querySelector('.card-back').innerHTML = cardToHTML(houseCards[0][1]);
+      document.getElementById("houseCard3").querySelector('.card-back').innerHTML = cardToHTML(houseCards[0][2]);
+
+      // Add shuffle animation
+      const allCards = [
+        "playerCard1", "playerCard2", "playerCard3",
+        "houseCard1", "houseCard2", "houseCard3"
+      ];
+
+      allCards.forEach(cardId => {
+        document.getElementById(cardId).classList.add("shuffle");
+      });
+
+      // Delay before flipping cards
+      setTimeout(() => {
+        allCards.forEach(cardId => {
+          flipCard(cardId);
+        });
+      }, 600); // Delay to show shuffle effect
+
+      const playerScore = handScore(playerCards[0]);
+      const houseScore = handScore(houseCards[0]);
+
+      let result = "";
+      if (playerScore > houseScore) {
+        const winnings = currentBet * 2;
+        chips += winnings;
+        result = `🎉 You win! +${winnings} chips`;
+      } else if (
