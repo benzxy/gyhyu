@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Horse Racing</title>
+    <style>
+      body {
+        background-color: darkgreen;
+        color: white;
+        font-family: "Segoe UI", sans-serif;
+        text-align: center;
+        padding: 30px;
+      }
+
+      .menu {
+        margin-bottom: 20px;
+      }
+
+      .menu a {
+        color: gold;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 18px;
+      }
+
+      .menu a:hover {
+        color: orange;
+      }
+
+      .track {
+        width: 100%;
+        height: 50px;
+        background-color: #654321;
+        position: relative;
+        margin: 20px 0;
+        overflow: hidden;
+      }
+
+      .horse {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        bottom: 0;
+        transition: left 0.1s; /* Adjust speed of the horse movement */
+      }
+
+      button {
+        font-size: 18px;
+        padding: 10px 20px;
+        background-color: gold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 10px;
+      }
+
+      input {
+        padding: 6px;
+        font-size: 16px;
+        width: 100px;
+      }
+
+      #chipCount {
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="slot.html">Slot Machine</a>
+      <a href="blackjack.html">Blackjack</a>
+      <a href="dice.html">Shooting Dice</a>
+      <a href="#">Horse Racing</a>
+    </div>
+
+    <h1>🏇 Horse Racing Game 🏇</h1>
+    <div id="chipCount">💰 Chips: 100</div>
+
+    <div>
+      <input type="number" id="horseBet" placeholder="Your bet" min="1" />
+      <select id="horseSelect">
+        <option value="1">Horse 1</option>
+        <option value="2">Horse 2</option>
+        <option value="3">Horse 3</option>
+        <option value="4">Horse 4</option>
+        <option value="5">Horse 5</option>
+        <option value="6">Horse 6</option>
+      </select>
+      <button onclick="placeBet()">Place Bet</button>
+    </div>
+
+    <h2>Race Track</h2>
+    <div class="track" id="raceTrack">
+      <div id="horse1" class="horse" style="background-color: red"></div>
+      <div id="horse2" class="horse" style="background-color: blue"></div>
+      <div id="horse3" class="horse" style="background-color: green"></div>
+      <div id="horse4" class="horse" style="background-color: yellow"></div>
+      <div id="horse5" class="horse" style="background-color: orange"></div>
+      <div id="horse6" class="horse" style="background-color: purple"></div>
+    </div>
+
+    <button id="startRaceBtn" onclick="startRace()" disabled>Start Race</button>
+    <p id="raceResult">Place a bet to begin.</p>
+
+    <script>
+      let chips = 100;
+      let currentBet = 0;
+      let winningHorse = 0;
+
+      function placeBet() {
+        const betInput = document.getElementById("horseBet");
+        const selectedHorse = document.getElementById("horseSelect").value;
+        const bet = parseInt(betInput.value);
+
+        if (bet > 0 && bet <= chips) {
+          currentBet = bet;
+          betInput.value = "";
+          document.getElementById("startRaceBtn").disabled = false;
+          document.getElementById(
+            "raceResult"
+          ).innerText = `You bet ${currentBet} chips on Horse ${selectedHorse}. Click Start Race!`;
+        } else {
+          alert("Invalid bet amount.");
+        }
+      }
+
+      function startRace() {
+        const horses = [
+          document.getElementById("horse1"),
+          document.getElementById("horse2"),
+          document.getElementById("horse3"),
+          document.getElementById("horse4"),
+          document.getElementById("horse5"),
+          document.getElementById("horse6"),
+        ];
+
+        horses.forEach((horse) => (horse.style.left = "0px")); // Reset horse positions
+
+        let raceInterval = setInterval(() => {
+          horses.forEach((horse) => {
+            const moveDistance = Math.random() * 5 + 1; // Random distance for each horse
+            horse.style.left = parseInt(horse.style.left) + moveDistance + "px";
+
+            if (
+              parseInt(horse.style.left) >=
+              document.getElementById("raceTrack").offsetWidth - 50
+            ) {
+              winningHorse = horses.indexOf(horse) + 1; // Get winning horse number
+              clearInterval(raceInterval);
+              determineOutcome();
+            }
+          });
+        }, 100);
+      }
+
+      function determineOutcome() {
+        const selectedHorse = document.getElementById("horseSelect").value;
+        let resultMessage = "";
+
+        if (winningHorse == selectedHorse) {
+          chips += currentBet * 2; // Win double the bet
+          resultMessage = `🎉 Horse ${winningHorse} wins! You win +${
+            currentBet * 2
+          } chips!`;
+        } else {
+          chips -= currentBet; // Lose the bet
+          resultMessage = `😢 Horse ${winningHorse} wins! You lose ${currentBet} chips.`;
+        }
+
+        document.getElementById("chipCount").innerText = `💰 Chips: ${chips}`;
+        document.getElementById("raceResult").innerText = resultMessage;
+        currentBet = 0;
+        document.getElementById("startRaceBtn").disabled = true; // Disable button after race
+      }
+    </script>
+  </body>
+</html>
