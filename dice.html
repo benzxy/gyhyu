@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Shooting Dice - 2 Player</title>
+    <style>
+      body {
+        background-color: darkgreen;
+        color: white;
+        font-family: "Segoe UI", sans-serif;
+        text-align: center;
+        padding: 30px;
+      }
+
+      .menu {
+        margin-bottom: 20px;
+      }
+
+      .menu a {
+        color: gold;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 18px;
+      }
+
+      .menu a:hover {
+        color: orange;
+      }
+
+      .dice {
+        font-size: 80px;
+        margin: 20px;
+      }
+
+      button {
+        font-size: 18px;
+        padding: 10px 20px;
+        background-color: gold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 10px;
+      }
+
+      input {
+        padding: 6px;
+        font-size: 16px;
+        width: 100px;
+      }
+
+      #chipCount {
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="slot.html">Slot Machine</a>
+      <a href="blackjack.html">Blackjack</a>
+      <a href="#">Shooting Dice</a>
+      <a href="horse-race.html">Horse Race</a>
+    </div>
+
+    <h1>🎲 Shooting Dice - 2 Player 🎲</h1>
+    <div id="chipCount">💰 Chips: 100</div>
+
+    <div>
+      <input type="number" id="player1Bet" placeholder="Player 1 Bet" min="1" />
+      <input type="number" id="player2Bet" placeholder="Player 2 Bet" min="1" />
+      <button onclick="placeBets()">Place Bets</button>
+    </div>
+
+    <h2>Dice Roll</h2>
+    <div class="dice" id="diceResult">🎲🎲</div>
+    <button id="rollBtn" onclick="rollDice()" disabled>Roll Dice</button>
+    <p id="result">Place bets to begin.</p>
+
+    <script>
+      let chips = 100;
+      let player1Bet = 0;
+      let player2Bet = 0;
+
+      function placeBets() {
+        const bet1Input = document.getElementById("player1Bet");
+        const bet2Input = document.getElementById("player2Bet");
+        const bet1 = parseInt(bet1Input.value);
+        const bet2 = parseInt(bet2Input.value);
+
+        if (bet1 > 0 && bet1 <= chips && bet2 > 0 && bet2 <= chips) {
+          player1Bet = bet1;
+          player2Bet = bet2;
+          bet1Input.value = "";
+          bet2Input.value = "";
+          document.getElementById("rollBtn").disabled = false;
+          document.getElementById(
+            "result"
+          ).innerText = `Player 1 bets ${player1Bet} chips, Player 2 bets ${player2Bet} chips. Click Roll!`;
+        } else {
+          alert("Invalid bet amounts.");
+        }
+      }
+
+      function rollDice() {
+        const die1 = Math.ceil(Math.random() * 6);
+        const die2 = Math.ceil(Math.random() * 6);
+        const total = die1 + die2;
+
+        document.getElementById(
+          "diceResult"
+        ).innerText = `🎲 ${die1} + ${die2} = ${total} 🎲`;
+
+        let resultMessage = "";
+        if (total === 7 || total === 11) {
+          chips += (player1Bet + player2Bet) * 2; // Both players win double their bet
+          resultMessage = `🎉 Both players win! Total: ${total}. +${
+            (player1Bet + player2Bet) * 2
+          } chips!`;
+        } else if (total === 2 || total === 3 || total === 12) {
+          chips -= player1Bet + player2Bet; // Both players lose their bets
+          resultMessage = `😢 Both players lose! Total: ${total}. You lost ${
+            player1Bet + player2Bet
+          } chips.`;
+        } else {
+          chips += player1Bet + player2Bet; // It's a push, bets returned
+          resultMessage = `😐 It's a push! Total: ${total}. Players get their bets back.`;
+        }
+
+        document.getElementById("chipCount").innerText = `💰 Chips: ${chips}`;
+        document.getElementById("result").innerText = resultMessage;
+        player1Bet = 0;
+        player2Bet = 0;
+        document.getElementById("rollBtn").disabled = true; // Disable roll button after roll
+      }
+    </script>
+  </body>
+</html>
